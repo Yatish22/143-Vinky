@@ -16,7 +16,6 @@
       background-attachment: fixed; font-family: "Poppins", sans-serif; position: fixed; left: 0; top: 0;
     }
     
-    /* --- BUTTERFLY & MAGIC TRAIL --- */
     .butterfly {
       position: absolute; width: 80px; height: 100px;
       z-index: 1; pointer-events: none;
@@ -34,13 +33,14 @@
       width: min(88%, 380px); padding: 35px 20px; background: rgba(255, 255, 255, 0.95); 
       backdrop-filter: blur(10px); border-radius: 35px;
       text-align: center; box-shadow: 0 25px 60px rgba(0,0,0,0.4); z-index: 10; border: 4px solid #ff8a80;
+      max-height: 90vh; overflow-y: auto;
     }
 
-    .dog-container { width: 140px; height: 140px; margin: 0 auto 20px; border-radius: 50%; overflow: hidden; border: 4px solid #ff4d6d; background: #fdfdfd; }
+    .dog-container { width: 120px; height: 120px; margin: 0 auto 15px; border-radius: 50%; overflow: hidden; border: 4px solid #ff4d6d; background: #fdfdfd; }
     .dog-gif { width: 100%; height: 100%; object-fit: cover; }
 
     #carouselArea { 
-      width: 100%; height: 220px; margin: 15px 0; border-radius: 20px; 
+      width: 100%; height: 200px; margin: 15px 0; border-radius: 20px; 
       overflow: hidden; border: 3px solid #ffccd5; position: relative; display: none;
     }
     .slide { width: 100%; height: 100%; object-fit: cover; position: absolute; top:0; left:0; opacity: 0; transition: opacity 1s ease-in-out; }
@@ -50,18 +50,26 @@
     .dot { width: 8px; height: 8px; background: rgba(255,255,255,0.5); border-radius: 50%; transition: 0.3s; }
     .dot.active { background: #ff4d6d; transform: scale(1.3); }
 
-    h2 { font-family: 'Dancing Script', cursive; font-size: 32px; color: #b71c1c; margin-bottom: 10px; }
-    p { color: #333; font-size: 14px; line-height: 1.5; font-weight: 500; }
+    h2 { font-family: 'Dancing Script', cursive; font-size: 28px; color: #b71c1c; margin-bottom: 5px; }
+    p { color: #333; font-size: 13px; line-height: 1.4; font-weight: 500; }
 
-    #puzzleArea { margin-top: 15px; padding: 20px; background: #fff5f7; border-radius: 20px; border: 2px dashed #ff4d6d; }
-    .jumbled { font-weight: 800; font-size: 26px; color: #ff4d6d; letter-spacing: 4px; margin-bottom: 10px; text-transform: uppercase; }
-    input { width: 85%; padding: 12px; border-radius: 12px; border: 2px solid #ffccd5; text-align: center; font-size: 18px; outline: none; margin-bottom: 10px; }
+    #puzzleArea { margin-top: 10px; padding: 15px; background: #fff5f7; border-radius: 20px; border: 2px dashed #ff4d6d; }
+    .jumbled { font-weight: 800; font-size: 22px; color: #ff4d6d; letter-spacing: 3px; margin-bottom: 10px; text-transform: uppercase; }
+    input { width: 80%; padding: 10px; border-radius: 12px; border: 2px solid #ffccd5; text-align: center; font-size: 16px; outline: none; margin-bottom: 10px; }
     
-    .btn-wrap { margin-top: 25px; min-height: 50px; display: flex; justify-content: center; align-items: center; gap: 15px; }
+    .btn-wrap { margin-top: 20px; min-height: 50px; display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap; }
     button { border-radius: 50px; border: none; font-weight: 700; cursor: pointer; transition: all 0.2s ease; }
     #yes { background: #ff4d6d; color: white; width: 100px; height: 45px; }
     #no { background: #eeeeee; color: #888; width: 100px; height: 45px; position: relative; }
     .check-btn { background: #b71c1c; color: white; padding: 10px 25px; width: 100%; font-size: 14px; }
+
+    #gift-btn { 
+      background: #4caf50; color: white; padding: 12px 20px; font-size: 14px; 
+      margin-top: 15px; display: none; text-decoration: none; border-radius: 25px;
+      box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3); animation: pulse 2s infinite;
+      cursor: pointer;
+    }
+    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
     .hidden { display: none !important; }
     .heart { position: absolute; bottom: -20px; animation: floatUp linear forwards; pointer-events: none; z-index: 1; }
@@ -105,20 +113,24 @@
             <div class="dots-container" id="dots"></div>
         </div>
         <p id="rewardMessage"></p>
+        <a id="gift-btn" target="_blank">🎁 Open Today's Gift</a>
         <p style="font-size: 12px; color: #ff4d6d; font-weight: bold; margin-top: 10px;">Vinky, you're the best! ❤️</p>
     </div>
   </div>
 
   <script>
     localStorage.clear(); 
-    // Set to null for real-time. Use 4, 5, 6 for the "Will you be mine" question.
     const TEST_DAY = null; 
 
     const dogImg = document.getElementById('dog-img');
     const noBtn = document.getElementById('no');
     const yesBtn = document.getElementById('yes');
     const bark = document.getElementById('barkSound');
+    const giftBtn = document.getElementById('gift-btn');
     
+    const _v1 = "MDUyMDIx"; 
+    const _c1 = "RTRDSCA5QzlHIEE0NTkgNzI5Mw=="; 
+
     const puzzles = {
       7:  { jum: "SERO", ans: "ROSE", h: "Hint: A classic red flower!" },
       8:  { jum: "PESOPOR", ans: "PROPOSE", h: "Hint: Asking a big question!" },
@@ -131,31 +143,46 @@
     };
 
     const dogData = {
-      7:  { t: "Rose Day 🌹", m: "A rose for the prettiest girl!", i: "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExc2VqbjB3aW9uazI0ZXplM204bjVqZTdjaHIycTh3N3BmaWJoNG5vZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/BVDMmwqGUMA79u6MtR/giphy.gif" },
-      8:  { t: "Propose Day 💍", m: "I'd choose you in every lifetime!", i: "https://c.tenor.com/wAmkPoYJ02IAAAAd/tenor.gif" },
-      9:  { t: "Chocolate Day 🍫", m: "Sweet treats for my sweet Vinky!", i: "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExcW9ybXM5dWkwZ2xkZnFhY2Fzcnl2aXJtZGtjenpveTRubWhtdmowYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/HB6CxPHZjMf9F2gi6K/giphy.gif" },
+      7: { 
+          t: "Rose Day 🌹", 
+          m: "Every rose reminds me of you, but no flower could ever capture your beauty. This song is defined about you😜.", 
+          i: "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExc2VqbjB3aW9uazI0ZXplM204bjVqZTdjaHIycTh3N3BmaWJoNG5vZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/BVDMmwqGUMA79u6MtR/giphy.gif", 
+          giftLink: "https://music.youtube.com/watch?v=43qWwQtbRuk", 
+          giftText: "🎵 Listen to this Music as per my Version about You" 
+      },
+      8: { 
+          t: "Propose Day 💍", 
+          m: "The puppy has a very important question: Will you be our Valentine forever? I'm already planning our next visit when we meet... ❤️", 
+          i: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHBicHpxZzZueXN6bm9oZzR4MzB6Z3ZueXN6bm9oZzR4MzB6Z3ZueSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26hpKSUWpMHBdzBTO/giphy.gif",
+          giftLink: "https://maps.app.goo.gl/9R38hX8fT3Z7L4hE9", 
+          giftText: "📍 Our Next Visit When We Meet" 
+      },
+      9: { 
+          t: "Chocolate Day 🍫", 
+          m: "I have a sweet surprise, but it's locked! 🔒", 
+          i: "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExcW9ybXM5dWkwZ2xkZnFhY2Fzcnl2aXJtZGtjenpveTRubWhtdmowYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/HB6CxPHZjMf9F2gi6K/giphy.gif", 
+          isSecret: true, 
+          giftText: "🎁 Unlock Chocolate Gift" 
+      },
       10: { t: "Teddy Day 🧸", m: "Sending you a warm cuddle!", i: "https://images.stockcake.com/public/7/e/5/7e58a64e-3be6-46ad-b6e4-9aaeb986de98_large/puppy-cuddling-toy-stockcake.jpg" },
       11: { t: "Promise Day 🤝", m: "I promise to always be yours.", i: "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNDdtdmZuaHFmNDFpb3FqN3MyeGRnc3BnYjIwY2EybmxvbXBqaTgyNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/7Wn1wbeIE28s2eTMV6/giphy.gif" },
       12: { t: "Hug Day 🤗", m: "Consider this a virtual squeeze!", i: "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExeTdtbHQ2ejFrbTMxcWl2OHd5YmYxMDliNXZlcHJ2dHRyaGExeGx2eSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/hoh795TvO1ccqadUlk/giphy.gif" },
       13: { t: "Kiss Day 💋", m: "Mwah! Kisses from the puppy!", i: "https://media.tenor.com/C_1jbx4N3wEAAAAM/dog-lick.gif" },
-      14: { t: "Valentine's Day ❤️", m: "Vinky, looking at these memories makes me love you more!", i: "" }
+      14: { t: "Valentine's Day ❤️", m: "Looking at these memories makes me love you more!", i: "", giftLink: "https://docs.google.com/forms/d/e/1FAIpQLSf...", giftText: "💝 Pick Your Present" }
     };
 
     function startPuzzle() {
         const today = new Date();
         const date = TEST_DAY || today.getDate();
-        const month = today.getMonth(); // 1 = Feb
-
-        // --- THE BIG INVITATION (BEFORE FEB 7) ---
+        const month = today.getMonth(); 
         if (date < 7 && month <= 1) { 
             document.getElementById('title').innerText = "Vinky... 💖";
             document.getElementById('message').innerHTML = "Will you be my Valentine? <br> (The puppy is waiting for your answer!)";
-            
             yesBtn.innerText = "YES! ✨";
             yesBtn.onclick = function() {
                 confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
                 document.getElementById('title').innerText = "It's a Date! 🥰";
-                document.getElementById('message').innerHTML = `You've made me the happiest! <br><br> <b>The puppy's daily surprises start here on Feb 7th. See you then!</b>`;
+                document.getElementById('message').innerHTML = `You've made me the happiest! <br><br> <b>The daily puzzles start here on Feb 7th!</b>`;
                 yesBtn.style.display = "none";
                 noBtn.style.display = "none";
                 dogImg.src = "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExcWs4bGpwem84M3Vlbm5ydG4zMWs0aTMxaDljOHJxcXY3NGZ0czBsbSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/eKmmfhyHPyTFDFCEYn/giphy.gif";
@@ -163,8 +190,6 @@
             };
             return;
         }
-
-        // --- VALENTINE WEEK (FEB 7-14) ---
         document.getElementById('welcomeContent').classList.add('hidden');
         document.getElementById('puzzleArea').classList.remove('hidden');
         const p = puzzles[date] || puzzles[7];
@@ -190,21 +215,44 @@
 
     function renderReward(date) {
         document.getElementById('rewardContent').classList.remove('hidden');
-        document.getElementById('rewardTitle').innerText = dogData[date].t;
-        document.getElementById('rewardMessage').innerText = dogData[date].m;
+        const data = dogData[date] || dogData[7];
+        document.getElementById('rewardTitle').innerText = data.t;
+        document.getElementById('rewardMessage').innerText = data.m;
+        
+        if(data.giftLink || data.isSecret) {
+            giftBtn.style.display = "inline-block";
+            giftBtn.innerText = data.giftText;
+            
+            if(data.isSecret) {
+                giftBtn.href = "javascript:void(0)";
+                giftBtn.onclick = function() {
+                    const pass = prompt("Enter the secret Month & Year (MMYYYY):");
+                    if(pass === atob(_v1)) {
+                        const realCode = atob(_c1);
+                        alert("UNLOCKED! 🍫");
+                        document.getElementById('rewardMessage').innerHTML = "<b>Your Sweet Treat Code:</b> <br><span style='color:#ff4d6d; font-size: 20px;'>" + realCode + "</span>";
+                    } else {
+                        alert("Wrong password! Only Vinky knows this! ❤️");
+                    }
+                };
+            } else {
+                giftBtn.href = data.giftLink;
+                giftBtn.onclick = null;
+            }
+        } else { giftBtn.style.display = "none"; }
+
         if (date === 14) {
             document.getElementById('carouselArea').style.display = "block";
             setupCarouselDots();
             startAutoCarousel();
             dogImg.src = "https://media.tenor.com/C_1jbx4N3wEAAAAM/dog-lick.gif";
-        } else {
-            dogImg.src = dogData[date].i;
-        }
+        } else { dogImg.src = data.i; }
     }
 
     function setupCarouselDots() {
         const slides = document.querySelectorAll('.slide');
         const dotsContainer = document.getElementById('dots');
+        if(!dotsContainer) return;
         dotsContainer.innerHTML = '';
         slides.forEach((_, i) => {
             const dot = document.createElement('div');
@@ -220,10 +268,10 @@
         setInterval(() => {
             if(slides.length === 0) return;
             slides[current].classList.remove('active');
-            dots[current].classList.remove('active');
+            if(dots[current]) dots[current].classList.remove('active');
             current = (current + 1) % slides.length;
             slides[current].classList.add('active');
-            dots[current].classList.add('active');
+            if(dots[current]) dots[current].classList.add('active');
         }, 3000);
     }
 
@@ -249,18 +297,13 @@
     }
     setInterval(spawnButterfly, 3000);
 
-    function beHappy() { 
-        if(document.getElementById('welcomeContent').classList.contains('hidden')) return;
-        dogImg.src = "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExcWs4bGpwem84M3Vlbm5ydG4zMWs0aTMxaDljOHJxcXY3NGZ0czBsbSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/eKmmfhyHPyTFDFCEYn/giphy.gif"; 
-    }
-
+    function beHappy() { if(!document.getElementById('welcomeContent').classList.contains('hidden')) dogImg.src = "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExcWs4bGpwem84M3Vlbm5ydG4zMWs0aTMxaDljOHJxcXY3NGZ0czBsbSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/eKmmfhyHPyTFDFCEYn/giphy.gif"; }
     function moveNo() {
         noBtn.style.position = "fixed";
         noBtn.style.left = Math.random() * 70 + 10 + "vw";
         noBtn.style.top = Math.random() * 70 + 10 + "vh";
         dogImg.src = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExczd0NmVpbTc2eGZkNXJlajRyc2Y0eWduazA2ZWdnYm1ycDlsOTJpZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/AQ60Mqpz7sJLK4DiOW/giphy.gif";
     }
-
     setInterval(() => {
       const heart = document.createElement("div"); heart.className = "heart"; heart.innerHTML = "🌸";
       heart.style.left = Math.random() * 98 + "vw"; heart.style.animationDuration = "4s";
