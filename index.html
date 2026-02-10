@@ -124,7 +124,7 @@
 
   <script>
     localStorage.clear(); 
-    const TEST_DAY = null; 
+    const TEST_DAY = 10; 
 
     const dogImg = document.getElementById('dog-img');
     const noBtn = document.getElementById('no');
@@ -156,7 +156,7 @@
       },
       8: { 
           t: "Propose Day 💍", 
-          m: "Vinky, every moment with you feels like home. I don't just want you to be my Valentine; I want to be the person who grows with you, supports your dreams, and chooses you every single day. You make my life better just by being in it. So, will you be our mine forever? I’m already looking forward to our next visit to that restaurant—even if our first date there was a total accident... ❤️❤️", 
+          m: "Vinky, every moment with you feels like home. I don't just want you to be my Valentine; I want to be the person who grows with you, supports your dreams, and chooses you every single day. So, will you be mine forever? I’m already looking forward to our next visit to that restaurant—even if our first date there was a total accident... ❤️❤️", 
           i: "https://c.tenor.com/wAmkPoYJ02IAAAAd/tenor.gif",
           giftLink: "https://www.google.com/maps/place/Kaala+Chashma/@19.1956836,72.9593808,790m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3be7b9c42fc762a3:0x302d385efadb71ac!8m2!3d19.1956786!4d72.9619557!16s%2Fg%2F11fkqz05tg?entry=ttu&g_ep=EgoyMDI2MDIwNC4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D", 
           giftText: "📍 Our Next Visit When We Meet" 
@@ -169,7 +169,12 @@
           giftLink: "https://smoor.in/collections/chocolates",
           giftText: "🎁 Unlock Chocolate Gift" 
       },
-      10: { t: "Teddy Day 🧸", m: "Sending you a warm cuddle!", i: "https://images.stockcake.com/public/7/e/5/7e58a64e-3be6-46ad-b6e4-9aaeb986de98_large/puppy-cuddling-toy-stockcake.jpg" },
+      10: { 
+          t: "Teddy Day 🧸", 
+          m: "Vinky, I know I’m not there to wrap my arms around you today, and honestly, that’s the hardest part. I don’t want you to just have a toy; I want you to have the memory of how it feels when you’re in my arms. This teddy is my stand-in—hold it whenever you miss me, and know that I’m counting the seconds until I can be your personal teddy bear again. You’re mine, and I’ve got you, always. 🧸🔥❤️", 
+          i: "https://images.stockcake.com/public/7/e/5/7e58a64e-3be6-46ad-b6e4-9aaeb986de98_large/puppy-cuddling-toy-stockcake.jpg",
+          giftText: "🎁 Claim Your Digital Hug" 
+      },
       11: { t: "Promise Day 🤝", m: "I promise to always be yours.", i: "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNDdtdmZuaHFmNDFpb3FqN3MyeGRnc3BnYjIwY2EybmxvbXBqaTgyNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/7Wn1wbeIE28s2eTMV6/giphy.gif" },
       12: { t: "Hug Day 🤗", m: "Consider this a virtual squeeze!", i: "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExeTdtbHQ2ejFrbTMxcWl2OHd5YmYxMDliNXZlcHJ2dHRyaGExeGx2eSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/hoh795TvO1ccqadUlk/giphy.gif" },
       13: { t: "Kiss Day 💋", m: "Mwah! Kisses from the puppy!", i: "https://media.tenor.com/C_1jbx4N3wEAAAAM/dog-lick.gif" },
@@ -218,7 +223,6 @@
         }
     }
 
-    // UPDATED renderReward with Typewriter and Surprise
     function renderReward(date) {
         document.getElementById('rewardContent').classList.remove('hidden');
         const data = dogData[date] || dogData[7];
@@ -238,39 +242,87 @@
                 setTimeout(typeWriter, speed);
             } else {
                 msgEl.classList.remove('typing');
-                heartBurst(); // The Surprise!
+                heartBurst(); 
             }
         }
         typeWriter(); 
         
-        if(data.giftLink || data.isSecret) {
+        // Teddy Day Special Cuddle Pass Reveal
+        // Day 10: Teddy Day - Enhanced Interactive Logic
+        if(date === 10) {
+            giftBtn.style.display = "inline-block";
+            giftBtn.innerText = "🔐 Unlock My Secret for You";
+            giftBtn.href = "javascript:void(0)";
+            giftBtn.removeAttribute('target'); 
+            
+            giftBtn.onclick = function() {
+                confetti({
+                    particleCount: 150, spread: 70, origin: { y: 0.6 },
+                    colors: ['#ff4d6d', '#ffccd5', '#ffffff']
+                });
+                
+                msgEl.innerHTML = `
+                    <div id="polaroidFrame" style="background: white; padding: 10px 10px 35px 10px; border: 1px solid #ddd; border-radius: 2px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transform: rotate(-2deg); margin-bottom: 20px;">
+                        <div id="photoContainer" style="background: #222; height: 450px; width: 100%; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                             
+                             <img src="https://lh3.googleusercontent.com/pw/AP1GczPGVeMrKltuyu0Yzez5qhWsfYgN2T3XVsNvLhLiv0tYw4a1qcQczCZlEaQzb-wtprEWtErxZ0XO1KjAfI5Jz0ZWtn5d-Wc3X_E1OUeYFD9y-Tif4yM1ULPmD2Zkm5HAIuh3I9FMp3D5x6H-c-L4y44biA=w959-h1280-s-no-gm" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+
+                             <div id="blackLayer" style="position: absolute; top:0; left:0; width: 100%; height: 100%; background: #111; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 1.5s ease; color: white; z-index: 2;" onclick="this.style.opacity='0'; setTimeout(()=>this.remove(), 1500);">
+                                <span style="font-size: 30px;">📸</span>
+                                <span style="font-size: 10px; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px;">Tap to Develop</span>
+                             </div>
+                        </div>
+                        <p style="font-family: 'Dancing Script'; font-size: 20px; margin: 15px 0 0 0; color: #444; text-align: center;">Us > Distance ❤️</p>
+                    </div>
+
+                    <div id="ticketPass" style="background: #fff5f7; border: 2px dashed #ff4d6d; padding: 15px; border-radius: 15px; position: relative; opacity: 0; transform: translateY(20px); transition: all 1s ease 0.8s;">
+                        <div style="position: absolute; top: -10px; right: -10px; background: #ff4d6d; color: white; padding: 5px 15px; transform: rotate(15deg); font-size: 10px; font-weight: bold;">ADMIT ONE</div>
+                        <h3 style="color: #ff4d6d; margin: 0; font-family: 'Dancing Script'; font-size: 22px;">Official Cuddle Pass 🎟️</h3>
+                        <p style="font-size: 11px; margin: 10px 0; color: #555; line-height: 1.4;">
+                            <b>Holder:</b> Vinky<br>
+                            Valid for infinite warm hugs. Redeemable the exact second we meet again.
+                        </p>
+                        <p style="font-size: 12px; font-weight: bold; color: #b71c1c; margin: 0;">No expiration. ❤️</p>
+                    </div>
+                `;
+
+                // Animate the ticket sliding in
+                setTimeout(() => {
+                    const ticket = document.getElementById('ticketPass');
+                    if(ticket) {
+                        ticket.style.opacity = "1";
+                        ticket.style.transform = "translateY(0)";
+                    }
+                }, 100);
+                
+                giftBtn.style.display = "none";
+            };
+        } else if(data.giftLink || data.isSecret) {
             giftBtn.style.display = "inline-block";
             giftBtn.innerText = data.giftText;
             
             if(data.isSecret) {
                 giftBtn.href = "javascript:void(0)";
+                giftBtn.removeAttribute('target');
                 giftBtn.onclick = function() {
                     const pass = prompt("Enter the secret Month & Year (MMYYYY):");
                     if(pass === atob(_v1)) {
                         const realCode = atob(_c1);
                         alert("UNLOCKED! 🍫");
-                        
-                        // Show the Secret Code + The Website Link
-                        document.getElementById('rewardMessage').innerHTML = 
+                        msgEl.innerHTML = 
                             "<b>Your Sweet Treat Code:</b> <br>" +
                             "<span style='color:#ff4d6d; font-size: 24px; font-weight: bold;'>" + realCode + "</span><br><br>" +
                             "<i>Order your favorites from the link below!</i>";
-                        
-                        // Update the button to go to Smoor
                         giftBtn.innerText = "🛒 Shop at Smoor";
                         giftBtn.href = data.giftLink;
-                        giftBtn.onclick = null; // Remove the password prompt after unlock
+                        giftBtn.onclick = null;
                     } else {
                         alert("Wrong password! Only Vinky knows this! ❤️");
                     }
                 };
             } else {
                 giftBtn.href = data.giftLink;
+                giftBtn.setAttribute('target', '_blank');
                 giftBtn.onclick = null;
             }
         } else { giftBtn.style.display = "none"; }
@@ -283,7 +335,6 @@
         } else { dogImg.src = data.i; }
     }
 
-    // Heart Burst Effect
     function heartBurst() {
         const end = Date.now() + (2 * 1000);
         (function frame() {
