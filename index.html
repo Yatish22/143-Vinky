@@ -123,7 +123,7 @@
 
   <script>
     localStorage.clear(); 
-    const TEST_DAY = 11; // Change to 11 to test Promise Day
+    const TEST_DAY = null; // Change to 11 to test Promise Day
 
     const dogImg = document.getElementById('dog-img');
     const noBtn = document.getElementById('no');
@@ -151,8 +151,11 @@
       9: { t: "Chocolate Day 🍫", m: "You’re my favorite addiction—the kind I never want to recover from. Unlock it, if you can handle the sweetness. 🍫🔥❤️", i: "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExcW9ybXM5dWkwZ2xkZnFhY2Fzcnl2aXJtZGtjenpveTRubWhtdmowYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/HB6CxPHZjMf9F2gi6K/giphy.gif", isSecret: true, giftLink: "https://smoor.in/collections/chocolates", giftText: "🎁 Unlock Chocolate Gift" },
       10: { t: "Teddy Day 🧸", m: "I’m counting the seconds until I can be your personal teddy bear again. You’re mine, and I’ve got you, always. 🧸🔥❤️", i: "https://images.stockcake.com/public/7/e/5/7e58a64e-3be6-46ad-b6e4-9aaeb986de98_large/puppy-cuddling-toy-stockcake.jpg" },
       11: { t: "Promise Day 🤝", m: "Vinky, I promise to choose you when things are hard, when the world is loud, and even when we’re miles apart. I promise to be the peace you come home to. My word is my honor. ❤️🤝🔥", i: "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHBicHpxZzZueXN6bm9oZzR4MzB6Z3ZueXN6bm9oZzR4MzB6Z3ZueSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/7Wn1wbeIE28s2eTMV6/giphy.gif" },
-      12: { t: "Hug Day 🤗", m: "Consider this a virtual squeeze!", i: "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExeTdtbHQ2ejFrbTMxcWl2OHd5YmYxMDliNXZlcHJ2dHRyaGExeGx2eSZlcD12MV9pbnRlcm5hbF9naGx2eSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/hoh795TvO1ccqadUlk/giphy.gif" },
-      13: { t: "Kiss Day 💋", m: "Mwah! Kisses from the puppy!", i: "https://media.tenor.com/C_1jbx4N3wEAAAAM/dog-lick.gif" },
+      12: { 
+                t: "Hug Day 🤗", 
+                m: "Vinky, if I were there, I wouldn't just give you a hug; I’d pull you in so tight you’d forget the rest of the world exists. I want to be your safe place, the arms you run to when you're tired, and the warmth you feel when it's cold. Until I can hold you for real, let this digital squeeze remind you that my heart is always wrapped around yours. ❤️🔥", 
+                i: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3ZhcXF6am9ueXpueXN6bm9oZzR4MzB6Z3ZueXN6bm9oZzR4MzB6Z3ZueSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/hoh795TvO1ccqadUlk/giphy.gif" 
+          },      13: { t: "Kiss Day 💋", m: "Mwah! Kisses from the puppy!", i: "https://media.tenor.com/C_1jbx4N3wEAAAAM/dog-lick.gif" },
       14: { t: "Valentine's Day ❤️", m: "Looking at these memories makes me love you more!", i: "", giftLink: "https://docs.google.com/forms/", giftText: "💝 Pick Your Present" }
     };
 
@@ -291,6 +294,54 @@
                     }
                 }, 500);
 
+                giftBtn.style.display = "none";
+            };
+        }
+        // DAY 12: HUG DAY (Interactive Heartbeat Hug)
+        else if(date === 12) {
+            giftBtn.style.display = "inline-block";
+            giftBtn.innerText = "🫂 Receive My Hug";
+            giftBtn.href = "javascript:void(0)";
+            giftBtn.removeAttribute('target'); 
+
+            giftBtn.onclick = function() {
+                // Change the Dog Image to a hugging one
+                dogImg.src = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3ZhcXF6am9ueXpueXN6bm9oZzR4MzB6Z3ZueXN6bm9oZzR4MzB6Z3ZueSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/hoh795TvO1ccqadUlk/giphy.gif";
+                
+                // Card starts pulsing like a heartbeat
+                const card = document.getElementById('mainCard');
+                card.style.transition = "transform 0.6s ease-in-out";
+                card.style.animation = "heartbeat 1.2s infinite";
+                
+                // Add the heartbeat keyframes dynamically
+                const style = document.createElement('style');
+                style.innerHTML = `
+                    @keyframes heartbeat {
+                        0% { transform: scale(1); }
+                        25% { transform: scale(1.05); }
+                        50% { transform: scale(1); }
+                        75% { transform: scale(1.05); }
+                        100% { transform: scale(1); }
+                    }
+                `;
+                document.head.appendChild(style);
+
+                confetti({
+                    particleCount: 100, spread: 70, origin: { y: 0.6 },
+                    colors: ['#ff4d6d', '#ffccd5', '#ffffff']
+                });
+
+                msgEl.innerHTML = `
+                    <div style="background: #fff5f7; border: 2px solid #ff4d6d; padding: 20px; border-radius: 15px; margin-top: 15px; box-shadow: 0 10px 25px rgba(255,77,109,0.1);">
+                        <h3 style="color: #ff4d6d; margin: 0; font-family: 'Dancing Script'; font-size: 24px;">Sending a Squeeze... 🫂</h3>
+                        <p style="font-size: 13px; color: #333; margin-top: 10px; line-height: 1.6;">
+                            <b>Current Status:</b> Wrapped in my arms.<br>
+                            <b>Intensity:</b> 100% Tight & Warm.<br><br>
+                            <i>I miss your smell, I miss your warmth, and I miss how perfectly you fit against me. Close your eyes... I'm right there.</i>
+                        </p>
+                        <p style="font-size: 14px; font-weight: bold; color: #b71c1c; margin-top: 10px;">I love you, Vinky! ❤️</p>
+                    </div>
+                `;
                 giftBtn.style.display = "none";
             };
         }
