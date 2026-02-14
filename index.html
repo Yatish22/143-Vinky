@@ -223,78 +223,95 @@
         }
         // DAY 14: VALENTINE'S DAY (STATS FINALE)
         else if(date === 14) {
-            giftBtn.style.display = "inline-block";
-            giftBtn.innerText = "🔐 Access Your Gift Vault";
-            giftBtn.href = "javascript:void(0)";
-            giftBtn.removeAttribute('target'); 
+    giftBtn.style.display = "inline-block";
+    giftBtn.innerText = "🔐 Access Your Gift Vault";
+    giftBtn.href = "javascript:void(0)";
+    giftBtn.removeAttribute('target'); 
 
-            giftBtn.onclick = function() {
-                // ASK FOR BIRTHDAY
-                const pass = prompt("Enter the Password to unlock your Vault:\n\nHint: The day & month you were born (DDMM)");
-                
-                // ⚠️ CHANGE '1205' to her actual birthdate (DDMM)
-                if(pass === "1608") { 
-                    confetti({ particleCount: 200, spread: 100, origin: { y: 0.6 } });
+    giftBtn.onclick = function() {
+        const pass = prompt("🔒 IDENTITY VERIFICATION REQUIRED\n\nTo unlock your Valentine's Vault, enter the 4-digit code that marks the day the stars aligned to create my favorite person (DDMM).\n\nHint: It's the only date that truly matters to my heart.");
+        
+        // ⚠️ REPLACE '1205' with her actual birthdate (DDMM)
+        if(pass === "1608") { 
+            confetti({ 
+                particleCount: 200, 
+                spread: 100, 
+                origin: { y: 0.6 },
+                colors: ['#ff4d6d', '#ffccd5', '#fff1f3', '#ffb3c1'] 
+            });
 
-                    visualArea.innerHTML = `
-                        <div style="background: white; border-radius: 25px; padding: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); border: 1px solid #ffccd5; margin-top:15px; max-height: 400px; overflow-y: auto;">
-                            <h3 style="font-family: 'Dancing Script'; color: #ff4d6d; font-size: 26px; margin-bottom: 5px;">Validated! ✅</h3>
-                            <p style="font-size: 11px; color: #666; margin-bottom: 20px;">The puppy guarded these for you. Enjoy your day, Vinky!</p>
-                            
-                            <div style="display: flex; flex-direction: column; gap: 15px; text-align: left;">
-                                
-                                ${renderGiftCard("NYKAA 💄", "#fc2779", "6002940068120679", "170451", "1000", "10 Feb 2027")}
+            // STEP 1: CLEAR THE BACKGROUND EMOTIONAL MESSAGE
+            msgEl.innerHTML = ""; 
+            msgEl.classList.remove('typing');
+
+            // STEP 2: SHOW THE "VALIDATED" MESSAGE + GIFT CARDS
+            visualArea.innerHTML = `
+                <div style="background: white; border-radius: 25px; padding: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); border: 1px solid #ffccd5; margin-top:10px; max-height: 450px; overflow-y: auto;">
+                    
+                    <h3 style="font-family: 'Dancing Script'; color: #ff4d6d; font-size: 26px; margin-bottom: 5px; text-align:center;">Validated! ✅</h3>
+                    <p style="font-size: 12px; color: #666; margin-bottom: 20px; text-align:center; line-height:1.4;">
+                        Access granted to the most special girl. <br>
+                        <b>Your royal day starts here.</b>
+                    </p>
+
+                    <div style="display: flex; flex-direction: column; gap: 12px; text-align: left;">
+                         ${renderGiftCard("NYKAA 💄", "#fc2779", "6002940068120679", "170451", "1000", "10 Feb 2027")}
                                 ${renderGiftCard("WESTSIDE 👗", "#222222", "VGWS993143649311", "No-PIN-Required", "2000", "14 Aug 2026")}
                                 ${renderGiftCard("MYNTRA 🛍️", "#ff3f6c", "6001220283713229", "200164", "1000", "16 Dec 2026")}
                                 ${renderGiftCard("UBER 🚗", "#000000", "QN7QEH6WKRG22", "6004910124524121", "1000", "10 Feb 2027")}
                                 ${renderGiftCard("B&B WORKS 🌸", "#005696", "AG99542254144126", "No-PIN-Required", "1500", "14 Aug 2026")}
                                 ${renderGiftCard("ZOMATO 🍕", "#cb202d", "6004860028470141", "142403", "500", "16 Dec 2026")}
                                 ${renderGiftCard("PVR CINEMAS 🍿", "#8a6d00", "PVKMEX9G3339", "No-PIN-Required", "1000", "14 Aug 2026")}
+                    </div>
 
-                            </div>
-
-                            <p style="font-size: 11px; color: #888; margin-top: 20px; font-style: italic; border-top: 1px dashed #eee; pt-10px;">
-                                "Every bit of this is for the girl who deserves the world."
-                            </p>
-                        </div>
-                    `;
-                    
-                    giftBtn.innerText = "❤️ Happy Valentine's Day! ❤️";
-                    giftBtn.style.background = "#ff4d6d";
-                    giftBtn.onclick = function() {
-                        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-                        alert("The puppy says: Go spoil yourself, Vinky! You're loved! 🐾💖");
-                    };
-                } else if(pass !== null) {
-                    alert("Wrong password! Hint: DDMM of your birthday. ❤️");
-                }
+                    <p style="font-size: 10px; color: #aaa; margin-top: 20px; text-align: center; font-style: italic; border-top: 1px dashed #eee; padding-top:10px;">
+                        "The world is your kingdom today, Princess."
+                    </p>
+                </div>
+            `;
+            
+            // UPDATE BUTTON TO ROYAL GRADIENT
+            giftBtn.innerText = "👑 For My Eternal Princess 👑";
+            giftBtn.style.background = "linear-gradient(45deg, #ff4d6d, #ff8fa3)";
+            giftBtn.style.boxShadow = "0 5px 15px rgba(255, 77, 109, 0.4)";
+            
+            giftBtn.onclick = function() {
+                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+                alert("✨ A Royal Decree from the Puppy Prince: ✨\n\n'Hear ye, hear ye! Princess Vinky, your carriage awaits for a day of absolute pampering. Every jewel, every gown, and every delight is yours to claim today. You are cherished beyond measure and loved more than any kingdom. Go spoil yourself, Your Highness!' 🐾👑💖");
             };
+        } else if(pass !== null) {
+            alert("The puppy is tilting his head in confusion... 🐶❓\n\nThat's not the day my favorite Princess was born. Try again, love! (DDMM)");
         }
+    };
+}
 
-        // HELPER FUNCTION TO DRAW CARDS (Add this outside renderReward or at the top of script)
+        // HELPER FUNCTION (Keep this outside of renderReward)
         function renderGiftCard(brand, color, code, pin, val, expiry) {
             return `
-                <div style="border: 1.5px solid ${color}44; border-left: 6px solid ${color}; padding: 12px; border-radius: 12px; background: ${color}05;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                        <span style="color: ${color}; font-weight: 800; font-size: 14px;">${brand}</span>
-                        <span style="background: ${color}; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: bold;">₹${val}</span>
+                <div style="border: 1.5px solid ${color}33; border-left: 6px solid ${color}; padding: 12px; border-radius: 12px; background: ${color}05;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <span style="color: ${color}; font-weight: 800; font-size: 13px;">${brand}</span>
+                        <span style="background: ${color}; color: white; padding: 2px 8px; border-radius: 8px; font-size: 9px; font-weight: bold;">₹${val}</span>
                     </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                    <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 5px;">
                         <div>
-                            <small style="font-size: 9px; color: #888; text-transform: uppercase;">Card Code</small>
-                            <div style="font-family: monospace; font-size: 13px; font-weight: bold; color: #333;">${code}</div>
+                            <small style="font-size: 8px; color: #999; text-transform: uppercase;">Code</small>
+                            <div style="font-family: monospace; font-size: 12px; font-weight: bold; color: #333;">${code}</div>
                         </div>
                         <div>
-                            <small style="font-size: 9px; color: #888; text-transform: uppercase;">PIN</small>
-                            <div style="font-family: monospace; font-size: 13px; font-weight: bold; color: #333;">${pin}</div>
+                            <small style="font-size: 8px; color: #999; text-transform: uppercase;">PIN</small>
+                            <div style="font-family: monospace; font-size: 12px; font-weight: bold; color: #333;">${pin}</div>
                         </div>
                     </div>
-                    <div style="margin-top: 8px; border-top: 1px solid #00000011; padding-top: 5px;">
-                        <small style="font-size: 9px; color: #999;">Valid Till: ${expiry}</small>
+                    <div style="margin-top: 5px; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 3px;">
+                        <small style="font-size: 8px; color: #bbb;">Exp: ${expiry}</small>
                     </div>
                 </div>
             `;
         }
+
+        // HELPER FUNCTION TO DRAW CARDS (Add this outside renderReward or at the top of script)
+        
     }
 
     function heartBurst() {
